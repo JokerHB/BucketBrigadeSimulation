@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+
 class BBTimer(object):
     def __init__(self):
         self._currentTime = 0
         self._eventList = []
-    
+
     def GetCurrentTime(self):
         return self._currentTime
 
@@ -19,7 +20,7 @@ class BBTimer(object):
 
     def AddEvent(self, event):
         self._eventList.append(event)
-    
+
     def AddEvents(self, eventList):
         self._eventList += eventList
 
@@ -28,6 +29,8 @@ class BBTimer(object):
             return None
         eventEndTime = list(map(lambda x: x._endTime, self._eventList))
         minEventEndTime = min(eventEndTime)
-        event = [eve for eve in self._eventList if eve._endTime == minEventEndTime]
+        event = [
+            eve for eve in self._eventList if eve._endTime == minEventEndTime
+        ]
         self._eventList = [eve for eve in self._eventList if eve not in event]
         return event
