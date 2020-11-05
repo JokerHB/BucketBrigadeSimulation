@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class BBEvent(object):
     def __init__(self, title, startTime, duraTime, level):
         self._title = title
