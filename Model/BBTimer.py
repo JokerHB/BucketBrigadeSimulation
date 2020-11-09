@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
 
+import threading
+
 
 class BBTimer(object):
+    _instanceLock = threading.Lock()
+
     def __init__(self):
         self._currentTime = 0
         self._eventList = []
+
+    @classmethod
+    def Instance(cls, *args, **kwargs):
+        with BBTimer._instanceLock:
+            if not hasattr(BBTimer, '_instance'):
+                BBTimer._instance = BBTimer(*args, **kwargs)
+        return BBTimer._instance
 
     def GetCurrentTime(self):
         return self._currentTime
@@ -34,3 +45,19 @@ class BBTimer(object):
         ]
         self._eventList = [eve for eve in self._eventList if eve not in event]
         return event
+
+
+if __name__ == "__main__":
+    time1 = BBTimer.Instance()
+    print(time1._currentTime, time1._eventList)
+
+    time1._currentTime = 100
+    print(time1._currentTime, time1._eventList)
+
+    time2 = BBTimer.Instance()
+    print(time2._currentTime, time2._eventList)
+
+    time2._currentTime = 200
+    print(time2._currentTime, time2._eventList)
+
+    print(time1._currentTime, time1._eventList)
