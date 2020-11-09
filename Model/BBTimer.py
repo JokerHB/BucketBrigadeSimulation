@@ -29,13 +29,17 @@ class BBTimer(object):
     def ReSetEventList(self):
         self._eventList = []
 
+    def ReSetTimer(self):
+        self.ReSetCurrentTime()
+        self.ReSetEventList()
+
     def AddEvent(self, event):
         self._eventList.append(event)
 
     def AddEvents(self, eventList):
         self._eventList += eventList
 
-    def GetNextEvent(self):
+    def RunNextEvent(self):
         if len(self._eventList) == 0 or self._eventList == []:
             return None
         eventEndTime = list(map(lambda x: x._endTime, self._eventList))
