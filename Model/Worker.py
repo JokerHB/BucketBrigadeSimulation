@@ -8,7 +8,11 @@ class Worker(object):
         self._initPosition = initPosition
         self._currentPosition = self._initPosition
         self._forwardVelocity = forwardVelocity
+        # backwardVelocity = -1 \
+        # backward velocity is not take into consideration
         self._backwardVelocity = backwardVelocity
+        # handoffTime = -1 \
+        # handoffTime is not take into consideration
         self._handoffTime = handoffTime
         self._operatingZone = operatingZone
 
