@@ -2,7 +2,8 @@
 
 
 class BBEvent(object):
-    def __init__(self, title, startTime, duraTime, level):
+    def __init__(self, workerID, title, startTime, duraTime, level):
+        self._workerID = workerID
         self._title = title
         self._level = level
         self._startTime = startTime
