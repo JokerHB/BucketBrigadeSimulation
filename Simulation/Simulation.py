@@ -16,6 +16,7 @@ class TwoSimulation(object):
     def __init__(self, workers, stations):
         self._workers = workers
         self._stations = stations
+        self._idleWorkers = []
         self._timer = BBTimer.Instance()
 
     def IsPeriodic(self):
@@ -43,23 +44,27 @@ class TwoSimulation(object):
 
     def MoveToNextStation(self, workerID):
         worker = self.GetWorker(workerID=workerID)
-        currentStation = worker.GetCurrentPosition()
-        nextStation = self.GetStation(stationID=currentStation + 1)
-        if nextStation.IsBusy() is False:
+        nextStationID = worker.GetNextPosition()
+        nextStation = self.GetStation(stationID=nextStationID)
+        # MARK: Forward
+        if nextStationID <= len(
+                self._stations) - 1 and nextStation.IsBusy() is False:
             title = 'worker %d work at station %d, current time is %f' % (
                 worker._workerID, nextStation,
                 float(self._timer.GetCurrentTime()))
             startTime = self._timer.GetCurrentTime()
             duraTime = nextStation._workcontent / worker._forwardVelocity
-            nextStation.OccupyStation()
             level = 0
             event = BBEvent(workerID=worker._workerID,
                             title=title,
                             startTime=startTime,
                             duraTime=duraTime,
                             level=level)
+            nextStation.OccupyStation()
+            worker.SetCurrentPosition(newPosition=worker.GetNextPosition())
             self._timer.AddEvent(event=event)
-        # TODO: Worker wait to work
+        # MARK: Backward
+        # TODO: Backward part
 
     def InitSimulation(self):
         for worker in self._workers:
@@ -84,7 +89,9 @@ class TwoSimulation(object):
             events = self._timer.RunNextEvent()
             workerIDs = [x._workerID for x in events]
             self.ReleaseStations(workerIDs=workerIDs)
-            for workerID in workerIDs:
+            self._idleWorkers += workerIDs
+            self._idleWorkers.sort()[::-1]
+            for workerID in self._idleWorkers:
                 self.MoveToNextStation(workerID=workerID)
 
 

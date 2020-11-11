@@ -7,6 +7,7 @@ class Worker(object):
         self._workerID = ID
         self._initPosition = initPosition
         self._currentPosition = self._initPosition
+        self._nextPosition = self._currentPosition + 1
         self._path = [self._initPosition]
         self._forwardVelocity = forwardVelocity
         # backwardVelocity = -1 \
@@ -21,7 +22,7 @@ class Worker(object):
         flag = False
         if self._path == [] or len(self._path) == 1:
             return flag
-        for i in range(len(self._path)):
+        for i in range(1, len(self._path)):
             if self._path[i] in self._path[i+1:]:
                 flag = True
                 break
@@ -30,10 +31,15 @@ class Worker(object):
     def GetCurrentPosition(self):
         return self._currentPosition
 
+    def GetNextPosition(self):
+        return self._nextPosition
+
     def SetCurrentPosition(self, newPosition):
         self._currentPosition = newPosition
+        self._nextPosition = self._currentPosition + 1
 
     def SetInitPosition(self, newPosition):
         self._initPosition = newPosition
         self._currentPosition = self._initPosition
+        self._nextPosition = self._currentPosition + 1
         self._path = [self._initPosition]
