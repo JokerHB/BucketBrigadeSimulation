@@ -14,7 +14,7 @@ from Tools.WorkerState import WorkerState
 from Tools.Direction import Direction
 
 
-class Simulation(object):
+class TwoSimulation(object):
     def __init__(self, workers, stations):
         self._workers = workers
         self._stations = stations
