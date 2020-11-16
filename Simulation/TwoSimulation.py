@@ -51,6 +51,9 @@ class TwoSimulation(object):
     def MoveToNextStation(self, workerID):
         worker = self.GetWorker(workerID=workerID)
         nextStationID = worker.GetNextPosition()
+        if nextStationID == len(self._stations) + 1:
+            worker.SetWorkerState(state=WorkerState.Idle)
+            return None
         nextStation = self.GetStation(stationID=nextStationID)
         if nextStation.IsBusy() is False:
             title = 'worker %d work at station %d, current time is %f' % (
