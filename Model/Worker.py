@@ -39,6 +39,9 @@ class Worker(object):
                 break
         return flag
 
+    def GetPath(self):
+        return self._path
+
     def SetWorkerState(self, state):
         self._state = state
 
@@ -63,6 +66,7 @@ class Worker(object):
     def SetCurrentPosition(self, newPosition):
         self._currentPosition = newPosition
         self._nextPosition = self._currentPosition + 1
+        self._path.append(self._currentPosition)
 
     def SetInitPosition(self, newPosition):
         self._initPosition = newPosition
