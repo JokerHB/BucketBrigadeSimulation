@@ -53,11 +53,12 @@ class TwoSimulation(object):
         nextStationID = worker.GetNextPosition()
         if nextStationID == len(self._stations) + 1:
             worker.SetWorkerState(state=WorkerState.Idle)
+            self.ResetWorkers()
             return None
         nextStation = self.GetStation(stationID=nextStationID)
         if nextStation.IsBusy() is False:
             title = 'worker %d work at station %d, current time is %f' % (
-                worker._workerID, nextStation,
+                worker._workerID, nextStation._stationID,
                 float(self._timer.GetCurrentTime()))
             startTime = self._timer.GetCurrentTime()
             duraTime = nextStation._workcontent / worker._forwardVelocity
@@ -92,7 +93,7 @@ class TwoSimulation(object):
                 worker._workerID, worker._initPosition,
                 float(self._timer.GetCurrentTime()))
             startTime = 0.0
-            station = self.GetStation(stationID=worker._stationID)
+            station = self.GetStation(stationID=worker.GetCurrentPosition())
             station.OccupyStation()
             worker.SetWorkerState(state=WorkerState.Busy)
             duraTime = station._workcontent / worker._forwardVelocity
@@ -118,11 +119,32 @@ class TwoSimulation(object):
             idleWorkerIDs.sort(reverse=True)
             for workerID in idleWorkerIDs:
                 self.MoveToNextStation(workerID=workerID)
-            # TODO Backward
+        for worker in self._workers:
+            print(worker.GetPath())
 
 
 if __name__ == "__main__":
-    timer = BBTimer.Instance()
-    # event = BBEvent()
-    # station = Station()
-    # Worker = Worker()
+    worker1 = Worker(ID=1,
+                     initPosition=1,
+                     forwardVelocity=1.5,
+                     backwardVelocity=-1,
+                     handoffTime=-1,
+                     operatingZone=None)
+    worker2 = Worker(ID=2,
+                     initPosition=4,
+                     forwardVelocity=1,
+                     backwardVelocity=-1,
+                     handoffTime=-1,
+                     operatingZone=None)
+
+    station1 = Station(ID=1, workcontent=1)
+    station2 = Station(ID=2, workcontent=1)
+    station3 = Station(ID=3, workcontent=1)
+    station4 = Station(ID=4, workcontent=1)
+    station5 = Station(ID=5, workcontent=1)
+
+    simulation = TwoSimulation(
+        workers=[worker1, worker2],
+        stations=[station1, station2, station3, station4, station5])
+
+    simulation.Simulate()
