@@ -19,7 +19,8 @@ class Worker(object):
         self._initPosition = initPosition
         self._currentPosition = self._initPosition
         self._nextPosition = self._currentPosition + 1
-        self._path = [self._initPosition]
+        self._path = [self._initPosition - 1]
+        self._handOffPoint = []
         self._forwardVelocity = forwardVelocity
         # backwardVelocity = -1 \
         # backward velocity is not take into consideration
@@ -31,16 +32,19 @@ class Worker(object):
 
     def IsPeriodic(self):
         flag = False
-        if self._path == [] or len(self._path) == 1:
+        if self._handOffPoint == [] or len(self._handOffPoint) == 1:
             return flag
-        for i in range(1, len(self._path)):
-            if self._path[i] in self._path[i + 1:]:
+        for i in range(1, len(self._handOffPoint)):
+            if self._handOffPoint[i] in self._handOffPoint[i + 1:]:
                 flag = True
                 break
         return flag
 
     def GetPath(self):
         return self._path
+
+    def GetHandOffPoint(self):
+        return self._handOffPoint
 
     def SetWorkerState(self, state):
         self._state = state
@@ -63,13 +67,17 @@ class Worker(object):
     def SetNextPosition(self, nextPosition):
         self._nextPosition = nextPosition
 
+    def AddHandOffPoint(self, handOffPoint):
+        self._handOffPoint.append(handOffPoint - 1)
+
     def SetCurrentPosition(self, newPosition):
         self._currentPosition = newPosition
         self._nextPosition = self._currentPosition + 1
-        self._path.append(self._currentPosition)
+        self._path.append(self._currentPosition - 1)
 
     def SetInitPosition(self, newPosition):
         self._initPosition = newPosition
         self._currentPosition = self._initPosition
         self._nextPosition = self._currentPosition + 1
-        self._path = [self._initPosition]
+        self._path = [self._initPosition - 1]
+        self._handOffPoint = []
