@@ -43,6 +43,10 @@ class BBTimer(object):
         for event in self._eventList:
             event._endTime -= self._currentTime
 
+    def DisplayEvents(self):
+        for event in self._eventList:
+            print(event._title, event._endTime)
+
     def RunNextEvent(self):
         if len(self._eventList) == 0 or self._eventList == []:
             return None
@@ -51,9 +55,9 @@ class BBTimer(object):
         event = [
             eve for eve in self._eventList if eve._endTime == minEventEndTime
         ]
-        self._currentTime += minEventEndTime
+        if self._currentTime < minEventEndTime:
+            self._currentTime = minEventEndTime
         self._eventList = [eve for eve in self._eventList if eve not in event]
-        self.UpdateEvents()
         return event
 
 
