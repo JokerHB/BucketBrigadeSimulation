@@ -84,6 +84,8 @@ class TwoSimulation(object):
             elif preWorker.GetWorkerState() == WorkerState.Busy:
                 worker.SetNextPosition(
                     nextPosition=preWorker.GetNextPosition())
+            worker.AddHandOffPoint(handOffPoint=worker.GetNextPosition())
+            preWorker.AddHandOffPoint(handOffPoint=worker.GetNextPosition())
         worker = self.GetWorker(workerID=workerIDs[-1])
         worker.SetNextPosition(nextPosition=1)
 
@@ -120,6 +122,8 @@ class TwoSimulation(object):
             for workerID in idleWorkerIDs:
                 self.MoveToNextStation(workerID=workerID)
         for worker in self._workers:
+            print(worker.GetHandOffPoint())
+        for worker in self._workers:
             print(worker.GetPath())
 
 
@@ -131,7 +135,7 @@ if __name__ == "__main__":
                      handoffTime=-1,
                      operatingZone=None)
     worker2 = Worker(ID=2,
-                     initPosition=4,
+                     initPosition=5,
                      forwardVelocity=1,
                      backwardVelocity=-1,
                      handoffTime=-1,
