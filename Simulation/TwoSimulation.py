@@ -80,10 +80,14 @@ class TwoSimulation(object):
             preWorker = self.GetWorker(workerID=workerIDs[i + 1])
             if preWorker.GetWorkerState() == WorkerState.Idle:
                 worker.SetNextPosition(
-                    nextPosition=preWorker.GetCurrentPosition())
+                    nextPosition=preWorker.GetNextPosition())
             elif preWorker.GetWorkerState() == WorkerState.Busy:
                 worker.SetNextPosition(
                     nextPosition=preWorker.GetNextPosition())
+                events = self._timer.RunNextEvent()
+                workerIDs = [x._workerID for x in events]
+                self.ReleaseStations(workerIDs=workerIDs)
+                self.ReleaseWorkers(workerIDs=workerIDs)
             worker.AddHandOffPoint(handOffPoint=worker.GetNextPosition())
             preWorker.AddHandOffPoint(handOffPoint=worker.GetNextPosition())
         worker = self.GetWorker(workerID=workerIDs[-1])
@@ -111,9 +115,10 @@ class TwoSimulation(object):
         self.InitSimulation()
         while False in self.IsPeriodic():
             events = self._timer.RunNextEvent()
-            workerIDs = [x._workerID for x in events]
-            self.ReleaseStations(workerIDs=workerIDs)
-            self.ReleaseWorkers(workerIDs=workerIDs)
+            if events != None:
+                workerIDs = [x._workerID for x in events]
+                self.ReleaseStations(workerIDs=workerIDs)
+                self.ReleaseWorkers(workerIDs=workerIDs)
             idleWorkers = list(
                 filter(lambda x: x.GetWorkerState() == WorkerState.Idle,
                        self._workers))
@@ -129,13 +134,13 @@ class TwoSimulation(object):
 
 if __name__ == "__main__":
     worker1 = Worker(ID=1,
-                     initPosition=1,
+                     initPosition=2,
                      forwardVelocity=1.5,
                      backwardVelocity=-1,
                      handoffTime=-1,
                      operatingZone=None)
     worker2 = Worker(ID=2,
-                     initPosition=5,
+                     initPosition=3,
                      forwardVelocity=1,
                      backwardVelocity=-1,
                      handoffTime=-1,
