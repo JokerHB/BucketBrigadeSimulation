@@ -102,16 +102,16 @@ class TwoEmulation(object):
         else:
             return (self._handOffPointList[indexA])
 
-    def GetTheromFixedPoint(self):
+    def GetTheoreticFixedPoint(self):
         return ceil(self._m * (self._rou) / (self._rou + 1))
 
-    def TheromFixedPointRegion(self):
+    def TheoreticFixedPointRegion(self):
         return (self._m * self._rou / (self._rou + 1),
                 (self._m * self._rou + 1) / (self._rou + 1))
 
-    def IsTheromFixedPointExisted(self):
-        a, b = self.TheromFixedPointRegion()
-        fp = self.GetTheromFixedPoint()
+    def IsTheoreticFixedPointExisted(self):
+        a, b = self.TheoreticFixedPointRegion()
+        fp = self.GetTheoreticFixedPoint()
         if fp < a or fp > b:
             return False
         return True
@@ -131,5 +131,5 @@ if __name__ == "__main__":
     print(twoEmulation.GetThroughput())
     print(twoEmulation.GetMaximumThroughput())
     print(twoEmulation.GetFixedPoint())
-    print(twoEmulation.GetTheromFixedPoint())
-    print(twoEmulation.IsTheromFixedPointExisted())
+    print(twoEmulation.GetTheoreticFixedPoint())
+    print(twoEmulation.IsTheoreticFixedPointExisted())
