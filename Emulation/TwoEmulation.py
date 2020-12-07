@@ -103,9 +103,17 @@ class TwoEmulation(object):
             return (self._handOffPointList[indexA])
 
     def GetTheoreticFixedPoint(self):
-        return ceil(self._m * (self._rou) / (self._rou + 1))
+        fp1 = self._m * (self._rou) / (self._rou + 1)
+        condition = (self._m * self._rou - self._m + 1) / self._rou
+        if fp1 <= condition:
+            return self._m - 1
+        return ceil(fp1)
 
     def TheoreticFixedPointRegion(self):
+        fp1 = self._m * (self._rou) / (self._rou + 1)
+        condition = (self._m * self._rou - self._m + 1) / self._rou
+        if fp1 <= condition:
+            return(0, condition)
         return (self._m * self._rou / (self._rou + 1),
                 (self._m * self._rou + 1) / (self._rou + 1))
 
