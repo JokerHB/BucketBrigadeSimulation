@@ -93,6 +93,9 @@ class TwoEmulation(object):
         #                                          (self._v1 + self._v2))))
         return (self._v1 + self._v2) / self._m
 
+    def GetPerformanceRatio(self):
+        return self.GetThroughput() / self.GetMaximumThroughput()
+
     def GetFixedPoint(self):
         indexA = self._maximumIteration - 1
         indexB = indexA - 1
