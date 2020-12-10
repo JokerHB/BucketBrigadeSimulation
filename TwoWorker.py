@@ -12,14 +12,14 @@ from Emulation.TwoEmulation import TwoEmulation
 if __name__ == "__main__":
     totalSpeed = 2
     for m in range(5, 23, 2):
-        for rou in range(1, 1000):
+        for rou in range(1, 100):
             for speed in range(2):
                 if speed == 0:
-                    v1 = totalSpeed / (1 + rou / 1000.0)
-                    v2 = v1 * (rou / 10.)
+                    v1 = totalSpeed / (1 + rou / 100.0)
+                    v2 = v1 * (rou / 100.)
                 else:
-                    v1 = totalSpeed / (1 + rou / 1000.0)
-                    v2 = v1 * (rou / 10.)
+                    v2 = totalSpeed / (1 + rou / 100.0)
+                    v1 = v2 * (rou / 100.0)
                 positionList = list(
                     it.combinations([i for i in range(1, m)], 2))
                 for p, q in positionList:
