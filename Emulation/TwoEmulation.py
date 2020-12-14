@@ -125,7 +125,6 @@ class TwoEmulation(object):
     def IsTheoreticFixedPointExisted(self):
         a, b = self.TheoreticFixedPointRegion()
         fp = self.GetTheoreticFixedPoint()
-        print(a, b, fp)
         if fp is None or (fp < a or fp >= b) or (fp <= 0 or fp >= self._m):
             return False
         return True
