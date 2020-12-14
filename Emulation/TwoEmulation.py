@@ -7,6 +7,7 @@
 # DESCRIPTION:
 
 from math import ceil
+from decimal import Decimal
 
 
 class TwoEmulation(object):
@@ -26,11 +27,11 @@ class TwoEmulation(object):
         q : int
             initial position of worker 2
         """
-        self._m = m
-        self._v1 = v1
-        self._v2 = v2
-        self._p = p
-        self._q = q
+        self._m = Decimal(m)
+        self._v1 = Decimal(v1)
+        self._v2 = Decimal(v2)
+        self._p = Decimal(p)
+        self._q = Decimal(q)
         self._rou = self._v1 / self._v2
         self._handOffPointList = []
         self._maximumIteration = 100
@@ -58,10 +59,10 @@ class TwoEmulation(object):
 
     def GetFirstHandOffPoint(self):
         if self.IsCatchUp(currentPosition=self._q, initPosition=self._p):
-            handOffPoint = self._m - 1
+            handOffPoint = self._m - Decimal(1)
         else:
             t = (self._m - self._q) / self._v2
-            handOffPoint = ceil(t * self._v1 + self._p)
+            handOffPoint = Decimal(ceil(t * self._v1 + self._p))
         return handOffPoint
 
     def GetNextHandOffPoint(self, currentPosition):
@@ -69,7 +70,7 @@ class TwoEmulation(object):
             handOffPoint = self._m - 1
         else:
             t = (self._m - currentPosition) / self._v2
-            handOffPoint = ceil(t * self._v1)
+            handOffPoint = Decimal(ceil(t * self._v1))
         return handOffPoint
 
     def GetThroughput(self):
@@ -86,7 +87,7 @@ class TwoEmulation(object):
               (self._m - self._handOffPointList[indexB]) *
               (self._v1 / self._v2)) / self._v1
         t1, t2, t3, t4 = max(0, t1), max(0, t2), max(0, t3), max(0, t4)
-        return 2 / (t1 + t2 + t3 + t4)
+        return Decimal(2) / (t1 + t2 + t3 + t4)
 
     def GetMaximumThroughput(self):
         # return self._v2 / (self._m - (self._m * (self._v1 /
@@ -106,7 +107,7 @@ class TwoEmulation(object):
             return (self._handOffPointList[indexA])
 
     def GetTheoreticFixedPoint(self):
-        fp1 = ceil(self._m * (self._rou) / (self._rou + 1))
+        fp1 = Decimal(ceil(self._m * (self._rou) / (self._rou + 1)))
         condition = (self._m * self._rou - self._m + 1) / self._rou
         if fp1 > condition:
             return fp1
@@ -115,17 +116,19 @@ class TwoEmulation(object):
         return None
 
     def TheoreticFixedPointRegion(self):
-        fp1 = self._m * (self._rou) / (self._rou + 1)
-        condition = (self._m * self._rou - self._m + 1) / self._rou
+        fp1 = Decimal((self._m * (self._rou) / (self._rou + Decimal(1))))
+        condition = (self._m * self._rou - self._m + Decimal(1)) / self._rou
         if fp1 > condition:
-            return (self._m * self._rou / (self._rou + 1),
-                    (self._m * self._rou + 1) / (self._rou + 1))
-        return (0, self._m)
+            return (self._m * self._rou / (self._rou + Decimal(1)),
+                    (self._m * self._rou + Decimal(1)) /
+                    (self._rou + Decimal(1)))
+        return (Decimal(0), self._m)
 
     def IsTheoreticFixedPointExisted(self):
         a, b = self.TheoreticFixedPointRegion()
         fp = self.GetTheoreticFixedPoint()
-        if fp is None or (fp < a or fp >= b) or (fp <= 0 or fp >= self._m):
+        if fp is None or (fp < a or fp >= b) or (fp <= Decimal(0)
+                                                 or fp >= self._m):
             return False
         return True
 
