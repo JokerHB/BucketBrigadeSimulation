@@ -26,10 +26,9 @@ def TPofFixedPoint():
                 twoEmulation.Emulation()
                 emulationTwo = TwoEmulation(m=m, v1=v2, v2=v1, p=p, q=q)
                 emulationTwo.Emulation()
-                if type(twoEmulation.GetFixedPoint()) == type(
-                        Decimal(1.0)) and type(
-                            emulationTwo.GetFixedPoint()) == type(
-                                Decimal(1.0)):
+                if isinstance(twoEmulation.GetFixedPoint(),
+                              Decimal) and isinstance(
+                                  emulationTwo.GetFixedPoint(), Decimal):
                     if abs(twoEmulation.GetThroughput() -
                            emulationTwo.GetThroughput()) > 1e-7:
                         print('%s %s %s %s %s %s %s %s' %
