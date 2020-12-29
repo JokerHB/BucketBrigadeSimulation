@@ -126,16 +126,16 @@ if __name__ == "__main__":
     #     twoEmulation = TwoEmulation(m=m, v1=v1, v2=v2, p=p, q=q)
     #     twoEmulation.Emulation()
 
-    #     print('rou is %f' % (v1 / v2))
-    #     print('p is %d, q is %d' % (p, q))
-    #     print([int(i) for i in twoEmulation._handOffPointList])
-    #     print('Throughput is %f' % twoEmulation.GetThroughput())
-    #     print('Maximum throughput is %f' % twoEmulation.GetMaximumThroughput())
-    #     print('Performance is %f%%' %
-    #           (Decimal('100.0') * twoEmulation.GetPerformanceRatio()))
-    #     print('Fixed point is %s' % str(twoEmulation.GetFixedPoint()))
-    #     print('Fixed point in Theoretic is %s' %
-    #           str(twoEmulation.GetTheoreticFixedPoint()))
-    #     print('Fixed point in Theoretic exist: %s' %
-    #           str(twoEmulation.IsTheoreticFixedPointExisted()))
-    #     print('-' * 12)
+    # print('rou is %f' % (v1 / v2))
+    # print('p is %d, q is %d' % (p, q))
+    # print([int(i) for i in twoEmulation._handOffPointList])
+    # print('Throughput is %f' % twoEmulation.GetThroughput())
+    # print('Maximum throughput is %f' % twoEmulation.GetMaximumThroughput())
+    # print('Performance is %f%%' %
+    #       (Decimal('100.0') * twoEmulation.GetPerformanceRatio()))
+    # print('Fixed point is %s' % str(twoEmulation.GetFixedPoint()))
+    # print('Fixed point in Theoretic is %s' %
+    #       str(twoEmulation.GetTheoreticFixedPoint()))
+    # print('Fixed point in Theoretic exist: %s' %
+    #       str(twoEmulation.IsTheoreticFixedPointExisted()))
+    # print('-' * 12)
